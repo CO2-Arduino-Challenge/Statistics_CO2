@@ -73,7 +73,8 @@
 </div><!-- /.container -->
 <footer class="footer">
     <div class="container">
-        <p class="text-muted" style="text-align: center">Denis Kovalenko 2015</p>
+             <p class="text-muted" style="text-align: center">PZ-12-1 2015</p>
+	<p class="text-muted" style="text-align: center">Tatarchenko, Sheremet, Kovalenko, Pleshkanovkiy, Sobol, Sych,</
     </div>
 </footer>
 

@@ -67,7 +67,7 @@
 
         <hr>
         <div style="width: 60%; text-align: left">
-        <strong> Posted ${entity["date"]?datetime?string("dd/mm/yyyy hh:mm:ss")} <i> By  ${entity["device_name"]}</i> </strong>
+        <strong> Posted ${entity["date"]?datetime?string("dd/MM/yyyy hh:mm:ss a")} <i> By  ${entity["device_name"]}</i> </strong>
         <br>
         temperature :  ${entity["temperature"]} <br>
         co2         : ${entity["co2"]} <br>
@@ -100,7 +100,8 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted" style="text-align: center">Denis Kovalenko 2014</p>
+        <p class="text-muted" style="text-align: center">PZ-12-1 2015</p>
+	<p class="text-muted" style="text-align: center">Tatarchenko, Sheremet, Kovalenko, Pleshkanovkiy, Sobol, Sych,</p>
     </div>
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
