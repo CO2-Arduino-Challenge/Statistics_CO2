@@ -10,12 +10,11 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Spark;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static spark.Spark.get;
@@ -30,6 +29,7 @@ public class StatisticController {
 
     private final Configuration cfg;
     private final StatsDAO statsDAO;
+    private final StatisticService statisticService;
 
 
     public static void main(String[] args) throws IOException {
@@ -45,15 +45,18 @@ public class StatisticController {
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
         final DB co2Database = mongoClient.getDB("co2");
 
-        statsDAO = new StatsDAO(co2Database);
 
+        statsDAO = new StatsDAO(co2Database);
         cfg = createFreemarkerConfiguration();
+        statisticService = new StatisticService(co2Database);
+
         setPort(8080);
+
         initializeRoutes();
     }
 
 
-    abstract class FreemarkerBasedRoute extends Route {
+    abstract class FreemarkerBasedRoute implements Route {
         final Template template;
 
         /**
@@ -62,7 +65,7 @@ public class StatisticController {
          * @param path The route path which is used for matching. (e.g. /hello, users/:name)
          */
         protected FreemarkerBasedRoute(final String path, final String templateName) throws IOException {
-            super(path);
+            //super(path);
             template = cfg.getTemplate(templateName);
         }
 
@@ -85,7 +88,7 @@ public class StatisticController {
 
     private void initializeRoutes() throws IOException {
         // this is the blog home page
-        get(new FreemarkerBasedRoute("/", "index_template.ftl") {
+        get("/", new FreemarkerBasedRoute("/", "index_template.ftl") {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
                 List<DBObject> data = statsDAO.findByDateDescending(0, 10);
@@ -97,10 +100,12 @@ public class StatisticController {
             }
         });
 
-        get(new FreemarkerBasedRoute("/page/:page", "index_template.ftl") {
+        get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
+
+        get("/page/:page", new FreemarkerBasedRoute("/page/:page", "index_template.ftl") {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
-                int page =Integer.parseInt(request.params(":page"));
+                int page = Integer.parseInt(request.params(":page"));
                 List<DBObject> data = statsDAO.findByDateDescending(page, 10);
                 SimpleHash root = new SimpleHash();
                 root.put("page", 0);
@@ -111,7 +116,7 @@ public class StatisticController {
             }
         });
 
-        get(new FreemarkerBasedRoute("/addData", "newdata_template.ftl") {
+        get("/addData", new FreemarkerBasedRoute("/addData", "newdata_template.ftl") {
             @Override
             protected void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
                     SimpleHash root = new SimpleHash();
@@ -120,7 +125,7 @@ public class StatisticController {
             }
         });
 
-        post(new FreemarkerBasedRoute("/addData", "newdata_template.ftl") {
+        post("/addData", new FreemarkerBasedRoute("/addData", "newdata_template.ftl") {
             @Override
             protected void doHandle(Request request, Response response, Writer writer)
                     throws IOException, TemplateException {
