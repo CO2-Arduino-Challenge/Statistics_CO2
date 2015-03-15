@@ -48,7 +48,7 @@
 <div class="container" style="margin-top: 30px">
 
     <div class="starter-template">
-        h1>CO2 Arduino Statistics</h1>
+        <h1>CO2 Arduino Statistics</h1>
         <br>
         <ul class="pagination">
 
