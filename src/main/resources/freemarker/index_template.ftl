@@ -62,20 +62,25 @@
         </ul>
 
     <#assign elementCount =0>
-    <#list data as entity>
-    <br>
+        <table bordercolor="black" border="1">
+            <tr style="background: #84e5ba;">
+                <th style="padding:10px; text-align:center;">Date/Time</th>
+                <th style="padding:10px; text-align:center;">Posted by</th>
+                <th style="padding:10px; text-align:center;">Temperature (*C)</th>
+                <th style="padding:10px; text-align:center;">CO2 (ppm)</th>
+            </tr>
+        <#list data as entity>
 
-        <hr>
-        <div style="width: 60%; text-align: left">
-        <strong> Posted ${entity["date"]?datetime?string("dd/MM/yyyy hh:mm:ss a")} <i> By  ${entity["device_name"]}</i> </strong>
-        <br>
-        temperature :  ${entity["temperature"]} <br>
-        co2         : ${entity["co2"]} <br>
-        </div>
+            <tr>
+                <td style="padding-left:10px; padding-right:10px;">${entity["date"]?datetime?string("dd/MM/yyyy hh:mm:ss a")}</td>
+                <td style="padding-left:10px; padding-right:10px;">${entity["device_name"]}</td>
+                <td style="text-align:center;">${entity["temperature"]}</td>
+                <td style="text-align:center;">${entity["co2"]}</td>
+            </tr>
 
-
-        <#assign elementCount=elementCount+1>
-    </#list>
+            <#assign elementCount=elementCount+1>
+        </#list>
+        </table>
         <br>
         <ul class="pagination">
         <#if tag??>
