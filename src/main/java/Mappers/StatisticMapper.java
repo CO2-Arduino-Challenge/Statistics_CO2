@@ -1,3 +1,6 @@
+package Mappers;
+
+import Model.StatisticModel;
 import com.mongodb.DBObject;
 
 import java.util.Date;

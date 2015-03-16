@@ -1,3 +1,8 @@
+package Controllers;
+
+import DAO.StatisticDAO;
+import Services.StatisticService;
+import Utils.JsonUtil;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -10,7 +15,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import spark.Spark;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -30,7 +34,7 @@ public class StatisticController {
 
 
     private final Configuration cfg;
-    private final StatsDAO statsDAO;
+    private final StatisticDAO statisticDAO;
     private final StatisticService statisticService;
 
 
@@ -48,7 +52,7 @@ public class StatisticController {
         final DB co2Database = mongoClient.getDB("co2");
 
 
-        statsDAO = new StatsDAO(co2Database);
+        statisticDAO = new StatisticDAO(co2Database);
         cfg = createFreemarkerConfiguration();
         statisticService = new StatisticService(co2Database);
 
@@ -93,7 +97,7 @@ public class StatisticController {
         get("/", new FreemarkerBasedRoute("/", "index_template.ftl") {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
-                List<DBObject> data = statsDAO.findByDateDescending(0, 10);
+                List<DBObject> data = statisticDAO.findByDateDescending(0, 10);
                 SimpleHash root = new SimpleHash();
                 root.put("page", 0);
                 root.put("data", data);
@@ -108,7 +112,7 @@ public class StatisticController {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
                 int page = Integer.parseInt(request.params(":page"));
-                List<DBObject> data = statsDAO.findByDateDescending(page, 10);
+                List<DBObject> data = statisticDAO.findByDateDescending(page, 10);
                 SimpleHash root = new SimpleHash();
                 root.put("page", page);
                 root.put("data", data);
@@ -139,7 +143,7 @@ public class StatisticController {
                 double co2_d = Double.parseDouble(co2);
                 double temperature_d = Double.parseDouble(temperature);
 
-                statsDAO.addEntity(device_name, temperature_d, co2_d);
+                statisticDAO.addEntity(device_name, temperature_d, co2_d);
 
                 response.redirect("/");
 

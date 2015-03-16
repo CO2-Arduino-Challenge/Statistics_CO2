@@ -1,4 +1,4 @@
-/**
+package Utils; /**
  * Created by denis on 14.03.15.
  */
 import com.google.gson.Gson;

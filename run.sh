@@ -1,2 +1,2 @@
-mvn compile exec:java -Dexec.mainClass=StatisticController
+mvn compile exec:java -Dexec.mainClass=Controllers.StatisticController
 

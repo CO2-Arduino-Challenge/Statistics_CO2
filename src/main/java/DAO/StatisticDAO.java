@@ -1,3 +1,5 @@
+package DAO;
+
 import com.mongodb.*;
 
 import java.util.Date;
@@ -6,10 +8,10 @@ import java.util.List;
 /**
  * Created by denis on 12.03.15.
  */
-public class StatsDAO {
+public class StatisticDAO {
     DBCollection dataCollection;
 
-    public StatsDAO(final DB co2Database) {
+    public StatisticDAO(final DB co2Database) {
         dataCollection = co2Database.getCollection("data");
     }
 
