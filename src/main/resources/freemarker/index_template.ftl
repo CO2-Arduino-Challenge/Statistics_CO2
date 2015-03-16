@@ -40,6 +40,8 @@
 
 <div class="container" style="margin-top: 30px">
 
+<#assign elementCount =0>
+
     <div class="starter-template">
         <h1>CO2 Arduino Statistics</h1>
         <br>
@@ -49,12 +51,12 @@
         <li> <a href="/page/${page-1}">prev</a></li>
         </#if>
     <li>
-        <a href="/page/${page+1}">next</a>
+    <#if 9 < elementCount><a href="/page/${page+1}">next</a></#if>
     </li>
     <#--</#if>-->
         </ul>
 
-    <#assign elementCount =0>
+
         <table bordercolor="black" border="1">
             <tr style="background: #84e5ba;">
                 <th style="padding:10px; text-align:center;">Date/Time</th>
