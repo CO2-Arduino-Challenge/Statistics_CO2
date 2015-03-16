@@ -110,7 +110,7 @@ public class StatisticController {
                 int page = Integer.parseInt(request.params(":page"));
                 List<DBObject> data = statsDAO.findByDateDescending(page, 10);
                 SimpleHash root = new SimpleHash();
-                root.put("page", 0);
+                root.put("page", page);
                 root.put("data", data);
 
                 template.process(root, writer);
