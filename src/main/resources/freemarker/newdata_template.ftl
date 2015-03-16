@@ -9,7 +9,7 @@
     <link rel="icon" href="../../favicon.ico">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <title>Create a new post</title>
+    <title>Create a new test entity</title>
 </head>
 
 <body>
