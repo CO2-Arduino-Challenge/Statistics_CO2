@@ -93,7 +93,7 @@ public class StatisticController {
         get("/", new FreemarkerBasedRoute("/", "index_template.ftl") {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
-                List<DBObject> data = statsDAO.findByDateDescending(0, 40);
+                List<DBObject> data = statsDAO.findByDateDescending(0, 10);
                 SimpleHash root = new SimpleHash();
                 root.put("page", 0);
                 root.put("data", data);
@@ -108,7 +108,7 @@ public class StatisticController {
             @Override
             public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
                 int page = Integer.parseInt(request.params(":page"));
-                List<DBObject> data = statsDAO.findByDateDescending(page, 40);
+                List<DBObject> data = statsDAO.findByDateDescending(page, 10);
                 SimpleHash root = new SimpleHash();
                 root.put("page", page);
                 root.put("data", data);
