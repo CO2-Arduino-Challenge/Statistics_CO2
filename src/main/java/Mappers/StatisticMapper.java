@@ -3,7 +3,9 @@ package Mappers;
 import Model.StatisticModel;
 import com.mongodb.DBObject;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by denis on 14.03.15.
@@ -23,6 +25,14 @@ public class StatisticMapper {
             e.printStackTrace();
             return null;
         }
-
+    }
+    static public List<StatisticModel> convertListOfDbObjects(List<DBObject> mongoStat) {
+        List<StatisticModel> result = new ArrayList<StatisticModel>() { };
+        if (!mongoStat.isEmpty()) {
+           for (DBObject row : mongoStat) {
+               result.add(StatisticMapper.convertDbObject(row));
+           }
+        }
+        return result;
     }
 }
