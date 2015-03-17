@@ -7,6 +7,7 @@ import com.mongodb.DB;
 import com.mongodb.DBObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,16 @@ public class StatisticService {
     public List<StatisticModel> findByDateDescending(int page, int limit) {
         List<StatisticModel> result = new ArrayList<StatisticModel>();
         List<DBObject> data = statisticDAO.findByDateDescending(page, limit);
+        for(DBObject row : data) {
+            result.add(StatisticMapper.convertDbObject(row));
+            //TODO think about returning null in case of exception
+        }
+        return  result;
+    }
+
+    public List<StatisticModel> findByDevice(String deviceId, Date startDate, Date endDate, boolean sortDescending) {
+        List<StatisticModel> result = new ArrayList<StatisticModel>();
+        List<DBObject> data = statisticDAO.findByDevice(deviceId, startDate, endDate, sortDescending);
         for(DBObject row : data) {
             result.add(StatisticMapper.convertDbObject(row));
             //TODO think about returning null in case of exception

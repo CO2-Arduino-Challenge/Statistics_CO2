@@ -27,6 +27,18 @@ public class StatisticDAO {
         return rows;
     }
 
+    public List<DBObject> findByDevice(String deviceId, Date startDate, Date endDate, boolean sortDescending) {
+        List<DBObject> result;
+        DBCursor cursor = dataCollection.find(new BasicDBObject("device_id", deviceId).
+                append("date", new BasicDBObject("$gte", startDate).append("$lt", endDate)));
+        try {
+            result = cursor.toArray();
+        } finally {
+            cursor.close();
+        }
+        return  result;
+    }
+
     public boolean addEntity(String name, double temperature, double co2) {
         BasicDBObject post = new BasicDBObject("device_name", name);
         post.append("temperature", temperature);
