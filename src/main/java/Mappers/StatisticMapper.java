@@ -27,7 +27,7 @@ public class StatisticMapper {
         }
     }
     static public List<StatisticModel> convertListOfDbObjects(List<DBObject> mongoStat) {
-        List<StatisticModel> result = new ArrayList<StatisticModel>() { };
+        List<StatisticModel> result = new ArrayList<StatisticModel>();
         if (!mongoStat.isEmpty()) {
            for (DBObject row : mongoStat) {
                result.add(StatisticMapper.convertDbObject(row));

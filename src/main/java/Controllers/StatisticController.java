@@ -9,21 +9,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -79,11 +71,13 @@ public class StatisticController {
 
         }, new FreeMarkerEngine(cfg));
 
-        get("/statistic", (req, res) -> statisticService.findByDevice(req.queryParams("deviceid"), new Date( Long.parseLong(req.queryParams("st_date"))), new Date(Long.parseLong(req.queryParams("end_date"))), true), JsonUtil.json());
-     //   String deviceId = request.queryParams("deviceid");
-//                    long st_time = Long.parseLong(request.queryParams("st_date"));
-//                    long end_time = Long.parseLong(request.queryParams("end_date"));
-//                    return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
+        get("/statistic", (request, response) -> {// statisticService.findByDevice(req.queryParams("deviceid"),new Date( Long.parseLong(req.queryParams("st_date"))), new Date(Long.parseLong(req.queryParams("end_date"))), true), JsonUtil.json());
+        String deviceId = request.queryParams("deviceid");
+        long st_time = Long.parseLong(request.queryParams("st_date"));
+        long end_time = Long.parseLong(request.queryParams("end_date"));
+        return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
+        }, JsonUtil.json());
+
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
 
         get("/page/:page", (request, response) -> {
@@ -96,8 +90,8 @@ public class StatisticController {
         }, new FreeMarkerEngine(cfg));
 
         get("/addData", (request, response) -> {
-                    SimpleHash root = new SimpleHash();
-                    return  new ModelAndView(root, "newdata_template.ftl");
+            SimpleHash root = new SimpleHash();
+            return new ModelAndView(root, "newdata_template.ftl");
         }, new FreeMarkerEngine(cfg));
 
         post("/addData", (request, response) -> {
