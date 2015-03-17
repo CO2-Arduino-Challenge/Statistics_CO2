@@ -79,14 +79,11 @@ public class StatisticController {
 
         }, new FreeMarkerEngine(cfg));
 
-        get("/statistic", (request, respone) -> {
-                    String deviceId = request.queryParams("deviceid");
-                    long st_time = Long.parseLong(request.queryParams("st_date"));
-                    long end_time = Long.parseLong(request.queryParams("end_date"));
-                    return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
-                }, JsonUtil.json()
-        );
-
+        get("/statistic", (req, res) -> statisticService.findByDevice(req.queryParams("deviceid"), new Date( Long.parseLong(req.queryParams("st_date"))), new Date(Long.parseLong(req.queryParams("end_date"))), true), JsonUtil.json());
+     //   String deviceId = request.queryParams("deviceid");
+//                    long st_time = Long.parseLong(request.queryParams("st_date"));
+//                    long end_time = Long.parseLong(request.queryParams("end_date"));
+//                    return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
 
         get("/page/:page", (request, response) -> {
