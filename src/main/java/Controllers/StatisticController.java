@@ -81,8 +81,9 @@ public class StatisticController {
 
         get("/statistic", (request, respone) -> {
                     String deviceId = request.queryParams("deviceid");
-                    long time = Long.parseLong(request.queryParams("st_date"));
-                    return statisticService.findByDevice(deviceId, new Date(time), new Date(), true);
+                    long st_time = Long.parseLong(request.queryParams("st_date"));
+                    long end_time = Long.parseLong(request.queryParams("end_date"));
+                    return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
                 }, JsonUtil.json()
         );
 
