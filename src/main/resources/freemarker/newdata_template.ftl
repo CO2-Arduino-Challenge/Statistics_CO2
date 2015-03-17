@@ -55,13 +55,14 @@
             <input class="form-control" type="text" name="co2" width="120" ><br>
             <p>
                 <input type="submit" class="btn btn-primary" value="Submit">
+		</form>
     </div>
 
 </div><!-- /.container -->
 <footer class="footer">
     <div class="container">
              <p class="text-muted" style="text-align: center">PZ-12-1 2015</p>
-	<p class="text-muted" style="text-align: center">Tatarchenko, Sheremet, Kovalenko, Pleshkanovkiy, Sobol, Sych,</
+	<p class="text-muted" style="text-align: center">Tatarchenko, Sheremet, Kovalenko, Pleshkanovkiy, Sobol, Sych,</p>
     </div>
 </footer>
 
