@@ -14,6 +14,7 @@ public class StatisticMapper {
             StatisticModel stat = new StatisticModel();
             stat.setCo2((Double)mongoStat.get("co2"));
             stat.setDevice_name((String)mongoStat.get("device_name"));
+            stat.setDevice_id((String)mongoStat.get("device_id"));
             stat.setDate((Date)mongoStat.get("date"));
             stat.setTemperature((Double)mongoStat.get("temperature"));
             return  stat;

@@ -1,16 +1,25 @@
 package Model;
 
 import java.util.Date;
+import org.bson.types.ObjectId;
 
 /**
  * Created by denis on 14.03.15.
  */
 public class StatisticModel {
+    private String device_id;
     private String device_name;
     private double temperature;
     private double co2;
     private Date date;
 
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
 
     public String getDevice_name() {
         return device_name;
