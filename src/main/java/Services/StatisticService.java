@@ -23,21 +23,15 @@ public class StatisticService {
     public List<StatisticModel> findByDateDescending(int page, int limit) {
         List<StatisticModel> result = new ArrayList<StatisticModel>();
         List<DBObject> data = statisticDAO.findByDateDescending(page, limit);
-        for(DBObject row : data) {
-            result.add(StatisticMapper.convertDbObject(row));
-            //TODO think about returning null in case of exception
-        }
-        return  result;
+        result = StatisticMapper.convertListOfDbObjects(data);
+        return result;
     }
 
     public List<StatisticModel> findByDevice(String deviceId, Date startDate, Date endDate, boolean sortDescending) {
         List<StatisticModel> result = new ArrayList<StatisticModel>();
         List<DBObject> data = statisticDAO.findByDevice(deviceId, startDate, endDate, sortDescending);
-        for(DBObject row : data) {
-            result.add(StatisticMapper.convertDbObject(row));
-            //TODO think about returning null in case of exception
-        }
-        return  result;
+        result = StatisticMapper.convertListOfDbObjects(data);
+        return result;
     }
 
 }
