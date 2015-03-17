@@ -29,8 +29,9 @@ public class StatisticDAO {
 
     public List<DBObject> findByDevice(String deviceId, Date startDate, Date endDate, boolean sortDescending) {
         List<DBObject> result;
+        int sortParam = (sortDescending) ? -1 : 1; // if sortDescending then sort : -1, if ascending 1
         DBCursor cursor = dataCollection.find(new BasicDBObject("device_id", deviceId).
-                append("date", new BasicDBObject("$gte", startDate).append("$lt", endDate)));
+                append("date", new BasicDBObject("$gte", startDate).append("$lt", endDate))).sort(new BasicDBObject("date", sortParam));
         try {
             result = cursor.toArray();
         } finally {

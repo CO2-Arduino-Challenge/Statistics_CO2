@@ -20,6 +20,7 @@ import spark.Route;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,13 @@ public class StatisticController {
               return new ModelAndView(root, "index_template.ftl");
 
         }, new FreeMarkerEngine(cfg));
+
+        get("/statistic", (request, respone) -> {
+                    String deviceId = request.queryParams("deviceid");
+                    long time     request.queryParams("st_date");
+                    statisticService.findByDevice(
+                }, JsonUtil.json()
+        );
 
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
 
