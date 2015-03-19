@@ -29,6 +29,7 @@ import spark.template.freemarker.FreeMarkerEngine;
  */
 public class StatisticController {
 
+    public final static int PER_PAGE = 30;
 
     private final Configuration cfg;
     private final StatisticDAO statisticDAO;
@@ -62,13 +63,24 @@ public class StatisticController {
     private void initializeRoutes() throws IOException {
         // this is the blog home page
         get("/", (request, response) -> {
-                List<DBObject> data = statisticDAO.findByDateDescending(0, 10);
+                List<DBObject> data = statisticDAO.findByDateDescending(0, PER_PAGE);
                 SimpleHash root = new SimpleHash();
+                root.put("per_page", PER_PAGE);
                 root.put("page", 0);
                 root.put("data", data);
 
               return new ModelAndView(root, "index_template.ftl");
 
+        }, new FreeMarkerEngine(cfg));
+
+        get("/page/:page", (request, response) -> {
+            int page = Integer.parseInt(request.params(":page"));
+            List<DBObject> data = statisticDAO.findByDateDescending(page, PER_PAGE);
+            SimpleHash root = new SimpleHash();
+            root.put("per_page", PER_PAGE);
+            root.put("page", page);
+            root.put("data", data);
+            return  new ModelAndView(root, "index_template.ftl");
         }, new FreeMarkerEngine(cfg));
 
         get("/statistic", (request, response) -> {// statisticService.findByDevice(req.queryParams("deviceid"),new Date( Long.parseLong(req.queryParams("st_date"))), new Date(Long.parseLong(req.queryParams("end_date"))), true), JsonUtil.json());
@@ -79,15 +91,6 @@ public class StatisticController {
         }, JsonUtil.json());
 
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
-
-        get("/page/:page", (request, response) -> {
-                int page = Integer.parseInt(request.params(":page"));
-                List<DBObject> data = statisticDAO.findByDateDescending(page, 10);
-                SimpleHash root = new SimpleHash();
-                root.put("page", page);
-                root.put("data", data);
-                return  new ModelAndView(root, "index_template.ftl");
-        }, new FreeMarkerEngine(cfg));
 
         get("/addData", (request, response) -> {
             SimpleHash root = new SimpleHash();

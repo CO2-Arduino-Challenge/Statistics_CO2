@@ -52,7 +52,13 @@
         </#if>
     <li>
     <#assign  size =  data?size >
-    <#if 9 < size ><a href="/page/${page+1}">next</a></#if>
+    <#if per_page?? >
+    <#assign rows_perpage = per_page>
+    <#else>
+    <#assign rows_perpage = 10>
+    </#if>
+
+    <#if rows_perpage-1 < size ><a href="/page/${page+1}">next</a></#if>
     </li>
     <#--</#if>-->
         </ul>
@@ -90,7 +96,7 @@
                 <li> <a href="/page/${page-1}">prev</a></li>
             </#if>
             <li>
-                <#if 9 < elementCount><a href="/page/${page+1}">next</a></#if>
+                <#if rows_perpage -1 < elementCount><a href="/page/${page+1}">next</a></#if>
             </li>
         </#if>
         </ul>
