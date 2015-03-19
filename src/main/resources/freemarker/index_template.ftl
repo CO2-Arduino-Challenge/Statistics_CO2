@@ -44,24 +44,24 @@
 
     <div class="starter-template">
         <h1>CO2 Arduino Statistics</h1>
-        <br>
-        <ul class="pagination">
 
-        <#if 0 < page >
-        <li> <a href="/page/${page-1}">prev</a></li>
-        </#if>
-    <li>
     <#assign  size =  data?size >
     <#if per_page?? >
-    <#assign rows_perpage = per_page>
+        <#assign rows_perpage = per_page>
     <#else>
-    <#assign rows_perpage = 10>
+        <#assign rows_perpage = 10>
     </#if>
 
-    <#if rows_perpage-1 < size ><a href="/page/${page+1}">next</a></#if>
-    </li>
-    <#--</#if>-->
-        </ul>
+    <ul class="pagination">
+        <#if 0 < page >
+            <li> <a href="/page/${page-1}">prev</a></li>
+        </#if>
+
+        <#if rows_perpage-1 < size >
+            <li><a href="/page/${page+1}">next</a>  </li>
+        </#if>
+
+    </ul>
 
     <#assign elementCount =0>
 
@@ -76,7 +76,7 @@
 
             <tr>
                 <td style="padding-left:10px; padding-right:10px;">${entity["date"]?datetime?string("dd/MM/yyyy hh:mm:ss a")}</td>
-                <td style="padding-left:10px; padding-right:10px;">${entity["device_name"]}</td>
+                <td style="padding-left:10px; padding-right:10px;">${entity["device_id"]}</td>
                 <td style="text-align:center;">${entity["temperature"]}</td>
                 <td style="text-align:center;">${entity["co2"]}</td>
             </tr>
@@ -84,22 +84,44 @@
             <#assign elementCount=elementCount+1>
         </#list>
         </table>
+        <#--<table class="table" >-->
+            <#--<tr style="background: #84e5ba;" >-->
+                <#--<th >Date/Time</th>-->
+                <#--<th >Posted by</th>-->
+                <#--<th >Temperature (*C)</th>-->
+                <#--<th >CO2 (ppm)</th>-->
+            <#--</tr>-->
+        <#--<#list data as entity>-->
+
+            <#--<tr>-->
+                <#--<td >${entity["date"]?datetime?string("dd/MM/yyyy hh:mm:ss a")}</td>-->
+                <#--<td >${entity["device_name"]}</td>-->
+                <#--<td >${entity["temperature"]}</td>-->
+                <#--<td >${entity["co2"]}</td>-->
+            <#--</tr>-->
+
+            <#--<#assign elementCount=elementCount+1>-->
+        <#--</#list>-->
+        <#--</table>-->
         <br>
-        <ul class="pagination">
+
+    <ul class="pagination">
         <#if tag??>
             <#if 0 < page >
                 <li><a href="/tag/${tag}/${page-1}">prev</a></li>
             </#if>
+
             <li><a href="/tag/${tag}/${page+1}">next</a></li>
         <#else>
             <#if 0 < page >
                 <li> <a href="/page/${page-1}">prev</a></li>
             </#if>
-            <li>
-                <#if rows_perpage -1 < elementCount><a href="/page/${page+1}">next</a></#if>
-            </li>
+
+            <#if rows_perpage -1 < elementCount>
+                <li><a href="/page/${page+1}">next</a></li>
+            </#if>
         </#if>
-        </ul>
+    </ul>
 
 
         </div>

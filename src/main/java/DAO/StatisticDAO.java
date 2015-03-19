@@ -1,7 +1,9 @@
 package DAO;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,9 +12,11 @@ import java.util.List;
  */
 public class StatisticDAO {
     DBCollection dataCollection;
+    DBCollection usersCollection;
 
     public StatisticDAO(final DB co2Database) {
         dataCollection = co2Database.getCollection("data");
+        usersCollection = co2Database.getCollection("users");
     }
 
 
@@ -36,6 +40,28 @@ public class StatisticDAO {
             result = cursor.toArray();
         } finally {
             cursor.close();
+        }
+        return  result;
+    }
+
+    public List<DBObject> findDevicesByUser(String userId) {
+        BasicDBList devices = new BasicDBList();
+        BasicDBList tmpDevices = new BasicDBList();
+        List<DBObject> result = new ArrayList<>();
+        List<DBObject> users; //there should be one users by unique id, but nonetheless...
+        ObjectId userObjectId = new ObjectId(userId);
+        DBCursor cursor = usersCollection.find(new BasicDBObject("_id", userObjectId));
+        try {
+           users = cursor.toArray();
+        } finally {
+            cursor.close();
+        }
+        for (DBObject user : users) {
+            tmpDevices = (BasicDBList) user.get("devices");
+            for(Object device : tmpDevices) { devices.add(device); }
+        }
+        for (Object device : devices ) {
+            result.add((DBObject) device);
         }
         return  result;
     }

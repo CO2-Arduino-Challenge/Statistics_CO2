@@ -8,7 +8,6 @@ import org.bson.types.ObjectId;
  */
 public class StatisticModel {
     private String device_id;
-    private String device_name;
     private double temperature;
     private double co2;
     private Date date;
@@ -19,14 +18,6 @@ public class StatisticModel {
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
-    }
-
-    public String getDevice_name() {
-        return device_name;
-    }
-
-    public void setDevice_name(String device_name) {
-        this.device_name = device_name;
     }
 
     public double getTemperature() {

@@ -10,6 +10,7 @@ import com.mongodb.MongoClientURI;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.bson.types.ObjectId;
 import spark.ModelAndView;
 
 import java.io.IOException;
@@ -83,11 +84,15 @@ public class StatisticController {
             return  new ModelAndView(root, "index_template.ftl");
         }, new FreeMarkerEngine(cfg));
 
-        get("/statistic", (request, response) -> {// statisticService.findByDevice(req.queryParams("deviceid"),new Date( Long.parseLong(req.queryParams("st_date"))), new Date(Long.parseLong(req.queryParams("end_date"))), true), JsonUtil.json());
-        String deviceId = request.queryParams("deviceid");
-        long st_time = Long.parseLong(request.queryParams("st_date"));
-        long end_time = Long.parseLong(request.queryParams("end_date"));
-        return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
+        get("/api/statistic", (request, response) -> {
+            String deviceId = request.queryParams("deviceid");
+            long st_time = Long.parseLong(request.queryParams("st_date"));
+            long end_time = Long.parseLong(request.queryParams("end_date"));
+            return statisticService.findByDevice(deviceId, new Date(st_time), new Date(end_time), true);
+        }, JsonUtil.json());
+
+        get("/api/devices", (request, response) -> {
+            return statisticService.findDevicesByUser(request.queryParams("userid"));
         }, JsonUtil.json());
 
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
