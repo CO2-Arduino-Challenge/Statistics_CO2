@@ -46,7 +46,7 @@
         <form action="/addData" method="POST">
         ${errors!""}
             <h2>Device_name</h2>
-            <input class="form-control" type="text" name="device_name" width="120"><br>
+            <input class="form-control" type="text" name="device_id" width="120"><br>
 
             <h2>Temperature</h2>
             <input class="form-control" type="text" name="temperature" width="120"><br>
