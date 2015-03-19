@@ -103,7 +103,7 @@ public class StatisticController {
         }, new FreeMarkerEngine(cfg));
 
         post("/addData", (request, response) -> {
-                String device_name = StringEscapeUtils.escapeHtml4(request.queryParams("device_name"));
+                String device_name = StringEscapeUtils.escapeHtml4(request.queryParams("device_id"));
                 String temperature = StringEscapeUtils.escapeHtml4(request.queryParams("temperature"));
                 String co2 = StringEscapeUtils.escapeHtml4(request.queryParams("co2"));
 
