@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by denis on 12.03.15.
@@ -49,8 +50,8 @@ public class StatisticDAO {
         BasicDBList tmpDevices = new BasicDBList();
         List<DBObject> result = new ArrayList<>();
         List<DBObject> users; //there should be one users by unique id, but nonetheless...
-        ObjectId userObjectId = new ObjectId(userId);
-        DBCursor cursor = usersCollection.find(new BasicDBObject("_id", userObjectId));
+        //UUID userObjectId = UUID.fromString(userId);
+        DBCursor cursor = usersCollection.find(new BasicDBObject("_id", userId));
         try {
            users = cursor.toArray();
         } finally {
