@@ -36,4 +36,9 @@ public class StatisticService {
         return  StatisticMapper.convertDevicesList(devices);
     }
 
+    public Boolean addEntity(String device_id, double temperature, double co2) {
+        //TODO: check if data is valid
+        return statisticDAO.addEntity(device_id, temperature, co2);
+    }
+
 }
