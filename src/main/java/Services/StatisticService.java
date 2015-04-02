@@ -1,5 +1,6 @@
 package Services;
 
+import DAO.DeviceDAO;
 import DAO.StatisticDAO;
 import Mappers.StatisticMapper;
 import Model.DeviceModel;
@@ -16,9 +17,11 @@ import java.util.List;
  */
 public class StatisticService {
     private StatisticDAO statisticDAO;
+    private DeviceDAO deviceDAO;
 
     public StatisticService(final DB co2Database) {
         statisticDAO = new StatisticDAO(co2Database);
+        deviceDAO = new DeviceDAO(co2Database);
     }
 
     public List<StatisticModel> findByDateDescending(int page, int limit) {
@@ -31,13 +34,8 @@ public class StatisticService {
         return StatisticMapper.convertStatisticList(data);
     }
 
-    public List<DeviceModel> findDevicesByUser(String userId) {
-        List<DBObject> devices = statisticDAO.findDevicesByUser(userId);
-        return  StatisticMapper.convertDevicesList(devices);
-    }
-
     public Boolean addEntity(String device_id, double temperature, double co2) {
-        //TODO: check if data is valid
+        if (!deviceDAO.ifDeviceExists(device_id)) return false;
         return statisticDAO.addEntity(device_id, temperature, co2);
     }
 
