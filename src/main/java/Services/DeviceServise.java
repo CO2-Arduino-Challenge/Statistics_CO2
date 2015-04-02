@@ -29,7 +29,7 @@ public class DeviceServise {
     }
 
     public Boolean addDevice(String device_id, String device_name, Integer delay, double co2MinLevel) {
-        //TODO: check if data is valid
+        if (ifDeviceExists(device_id)) return false;
         return deviceDAO.addDevice(device_id, device_name, delay, co2MinLevel);
     }
 }
