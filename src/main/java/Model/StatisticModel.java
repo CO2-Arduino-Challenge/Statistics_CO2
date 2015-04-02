@@ -10,6 +10,7 @@ public class StatisticModel {
     private String device_id;
     private double temperature;
     private double co2;
+    private double humidity;
     private Date date;
 
     public String getDevice_id() {
@@ -28,6 +29,14 @@ public class StatisticModel {
         this.temperature = temperature;
     }
 
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
+    }
+
     public double getCo2() {
         return co2;
     }
@@ -40,7 +49,8 @@ public class StatisticModel {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date)
+    {
         this.date = date;
     }
 }
