@@ -3,6 +3,7 @@ package Controllers;
 import DAO.StatisticDAO;
 import Model.StatisticModel;
 import Services.StatisticService;
+import Services.UserService;
 import Utils.JsonUtil;
 import com.mongodb.DB;
 import com.mongodb.DBObject;
@@ -35,6 +36,7 @@ public class StatisticController {
 
     private final Configuration cfg;
     private final StatisticService statisticService;
+    private final UserService userService;
 
 
     public static void main(String[] args) throws IOException {
@@ -53,6 +55,7 @@ public class StatisticController {
         cfg = new Configuration();
         cfg.setClassForTemplateLoading(StatisticController.class, "/freemarker");
         statisticService = new StatisticService(co2Database);
+        userService = new UserService(co2Database);
 
         setPort(8180);
         initializeRoutes();
@@ -90,7 +93,7 @@ public class StatisticController {
         }, JsonUtil.json());
 
         get("/api/devices", (request, response) -> {
-            return statisticService.findDevicesByUser(request.queryParams("userid"));
+            return userService.findDevicesByUser(request.queryParams("username"));
         }, JsonUtil.json());
 
         get("/json_statistic", (req, res) -> statisticService.findByDateDescending(0, 10), JsonUtil.json());
@@ -108,7 +111,6 @@ public class StatisticController {
                 double co2_d = Double.parseDouble(co2);
                 double temperature_d = Double.parseDouble(temperature);
 
-                //TODO: check if device with this name exists
                 statisticService.addEntity(device_name, temperature_d, co2_d);
 
                 response.redirect("/", 302);
