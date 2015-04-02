@@ -1,6 +1,7 @@
 package Controllers;
 
 import DAO.StatisticDAO;
+import Model.StatisticModel;
 import Services.StatisticService;
 import Utils.JsonUtil;
 import com.mongodb.DB;
@@ -33,7 +34,6 @@ public class StatisticController {
     public final static int PER_PAGE = 30;
 
     private final Configuration cfg;
-    private final StatisticDAO statisticDAO;
     private final StatisticService statisticService;
 
 
@@ -50,13 +50,11 @@ public class StatisticController {
         final MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURIString));
         final DB co2Database = mongoClient.getDB("co2");
 
-
-        statisticDAO = new StatisticDAO(co2Database);
         cfg = new Configuration();
         cfg.setClassForTemplateLoading(StatisticController.class, "/freemarker");
         statisticService = new StatisticService(co2Database);
 
-        setPort(8080);
+        setPort(8180);
         initializeRoutes();
 
     }
@@ -64,7 +62,7 @@ public class StatisticController {
     private void initializeRoutes() throws IOException {
         // this is the blog home page
         get("/", (request, response) -> {
-                List<DBObject> data = statisticDAO.findByDateDescending(0, PER_PAGE);
+                List<StatisticModel> data = statisticService.findByDateDescending(0, PER_PAGE);
                 SimpleHash root = new SimpleHash();
                 root.put("per_page", PER_PAGE);
                 root.put("page", 0);
@@ -76,7 +74,7 @@ public class StatisticController {
 
         get("/page/:page", (request, response) -> {
             int page = Integer.parseInt(request.params(":page"));
-            List<DBObject> data = statisticDAO.findByDateDescending(page, PER_PAGE);
+            List<StatisticModel> data = statisticService.findByDateDescending(page, PER_PAGE);
             SimpleHash root = new SimpleHash();
             root.put("per_page", PER_PAGE);
             root.put("page", page);
@@ -109,7 +107,9 @@ public class StatisticController {
 
                 double co2_d = Double.parseDouble(co2);
                 double temperature_d = Double.parseDouble(temperature);
-                statisticDAO.addEntity(device_name, temperature_d, co2_d);
+
+                //TODO: check if device with this name exists
+                statisticService.addEntity(device_name, temperature_d, co2_d);
 
                 response.redirect("/", 302);
                 return "";
