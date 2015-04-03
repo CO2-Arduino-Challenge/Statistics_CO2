@@ -18,6 +18,7 @@ import spark.ModelAndView;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 import static spark.Spark.get;
@@ -104,16 +105,24 @@ public class StatisticController {
         }, new FreeMarkerEngine(cfg));
 
         post("/addData", (request, response) -> {
-                String device_name = StringEscapeUtils.escapeHtml4(request.queryParams("device_id"));
-                String temperature = StringEscapeUtils.escapeHtml4(request.queryParams("temperature"));
-                String co2 = StringEscapeUtils.escapeHtml4(request.queryParams("co2"));
+                Map<String, String> params = request.params();
+                if (params.containsKey("device_id") &&
+                        params.containsKey("temperature") && params.containsKey("co2")) { // && params.containsKey("humidity"))
+                    String device_id = StringEscapeUtils.escapeHtml4(request.queryParams("device_id"));
+                    String temperature = StringEscapeUtils.escapeHtml4(request.queryParams("temperature"));
+                    String co2 = StringEscapeUtils.escapeHtml4(request.queryParams("co2"));
 
-                double co2_d = Double.parseDouble(co2);
-                double temperature_d = Double.parseDouble(temperature);
+                    double co2_d = Double.parseDouble(co2);
+                    double temperature_d = Double.parseDouble(temperature);
 
-                statisticService.addEntity(device_name, temperature_d, co2_d);
+                    statisticService.addEntity(device_id, temperature_d, co2_d);
 
-                response.redirect("/", 302);
+                    response.redirect("/", 302);
+                }
+                else {
+                    //TODO: redirect do error
+                }
+
                 return "";
 
         });
